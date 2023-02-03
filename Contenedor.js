@@ -56,16 +56,12 @@ class Contenedor {
     try{
       const productos = await this.getAll();
       const indice = productos.findIndex(prod => prod.id === id);
-      if (indice === -1) {
-        return null;
-      } else {
-        const productoEliminado = productos[indice];
-
-        productos.splice(indice, 1);
-        await fs.promises.writeFile(this.ruta, JSON.stringify(productos, null, 2));
-
-        return productoEliminado;
-      }
+      if (indice === -1) return null;
+      
+      const productoEliminado = productos[indice];
+      productos.splice(indice, 1);
+      await fs.promises.writeFile(this.ruta, JSON.stringify(productos, null, 2));
+      return productoEliminado;
     } catch (error) {
       console.log("Por alguna extraña razón no se pudo escribir el archivo desde el filesystem, tu error es el siguiente: " + error);
     }
